@@ -1,6 +1,7 @@
 # LearnFlow – Student Dashboard
 
 A futuristic learning dashboard built with Next.js, Supabase, Tailwind CSS, and Framer Motion.
+## watch live project here - https://learning-dashboard-delta-ten.vercel.app/dashboard
 
 ## Getting Started
 
@@ -114,3 +115,36 @@ Also, getting the Tailwind custom colors to work with the dark-only theme requir
 2. Import into [Vercel](https://vercel.com)
 3. Add your `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in Vercel's environment variables settings
 4. Deploy!
+
+## Architecture of the dashboard
+
+```text
+learning-dashboard/
+├── app/
+│   ├── layout.tsx          ← root HTML setup, Inter font, dark bg
+│   ├── globals.css         ← Tailwind + custom scrollbar + shimmer
+│   ├── page.tsx            ← redirects to /dashboard
+│   └── dashboard/
+│       ├── layout.tsx      ← sidebar + main content split
+│       ├── page.tsx        ← SERVER component, fetches Supabase data
+│       └── loading.tsx     ← skeleton shown while data loads
+├── components/
+│   ├── dashboard/
+│   │   ├── Sidebar.tsx     ← collapsible nav with layoutId animation
+│   │   ├── MobileNav.tsx   ← bottom bar for phones
+│   │   ├── HeroTile.tsx    ← greeting + streak badge
+│   │   ├── CourseCard.tsx  ← individual course tile
+│   │   ├── CourseGrid.tsx  ← stagger container (CLIENT)
+│   │   ├── ActivityTile.tsx← contribution graph
+│   │   └── StatsTile.tsx   ← quick stats
+│   └── ui/
+│       ├── ProgressBar.tsx ← animates 0→value on mount
+│       ├── SkeletonCard.tsx← pulsing loader placeholders
+│       ├── DynamicIcon.tsx ← maps DB string → Lucide icon
+│       └── ErrorMessage.tsx← graceful DB error display
+├── lib/
+│   ├── supabase.ts         ← Supabase client factory
+│   ├── fetch-courses.ts    ← tries Supabase, falls back to mock
+│   └── mock-data.ts        ← works without a DB connection
+└── types/index.ts          ← Course, NavItem, ActivityDay interfaces
+
